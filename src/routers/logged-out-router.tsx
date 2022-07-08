@@ -7,7 +7,7 @@ interface IForm {
 }
 
 export const LoggedOutRouter = () => {
-  const { register, watch, handleSubmit, errors } = useForm<IForm>();
+  const { register, watch, handleSubmit, formState: { errors }  } = useForm<IForm>();
   const onSubmit = () => {
     console.log(watch());
   };
@@ -20,7 +20,7 @@ export const LoggedOutRouter = () => {
       <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
         <div>
           <input
-            ref={register({
+            {...register("email", {
               required: "This is required",
               pattern: /^[A-Za-z0-9._%+-]+@gmail.com$/,
             })}
@@ -39,7 +39,9 @@ export const LoggedOutRouter = () => {
         </div>
         <div>
           <input
-            ref={register({ required: true })}
+            {...register("password",{
+              required:"This is required",
+            })}
             name="password"
             type="password"
             required
